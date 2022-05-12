@@ -6,8 +6,8 @@ import javax.validation.constraints.Min;
 import java.util.Objects;
 
 public class Month {
-    @Min(1)
-    @Max(12)
+    @Min(value = 1,message = "must be a double between 1 and 12")
+    @Max(value = 12,message = "must be a double between 1 and 12")
     private int number;
     private String name;
 

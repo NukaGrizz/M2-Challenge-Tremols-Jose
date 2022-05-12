@@ -6,8 +6,10 @@ import java.util.Objects;
 public class MathSolution {
 
     @NotNull(message = "operand1 must be present in request")
+    @Min(value = -999, message = "operand1 must be a integer greater than -999")
     private Double operand1;
     @NotNull(message = "operand2 must be present in request")
+    @Min(value = -999, message = "operand2 must be a integer greater than -999")
     private Double operand2;
     private String operation;
     private double answer;
