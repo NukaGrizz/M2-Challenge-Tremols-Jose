@@ -34,7 +34,7 @@ public class MathSolutionController {
     @ResponseStatus(value = HttpStatus.OK)
     public MathSolution divideOperators(@RequestBody @Valid MathSolution opStart) throws Exception{
         if(opStart.getOperand2() == 0){
-            throw new IllegalArgumentException("Cannot divide number by zero operand2 cannot be zero");
+            throw new IllegalArgumentException("Cannot divide number by zero! operand2 cannot be zero!");
         }
         return new MathSolution(opStart.getOperand1(), opStart.getOperand2(), "divide");
     }

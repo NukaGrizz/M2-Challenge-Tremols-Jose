@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class MathSolution {
 
-    @NotNull(message = "operand2 must be present in request")
+    @NotNull(message = "operand1 must be present in request")
     private Double operand1;
     @NotNull(message = "operand2 must be present in request")
     private Double operand2;

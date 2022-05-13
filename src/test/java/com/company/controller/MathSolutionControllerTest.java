@@ -1,23 +1,20 @@
 package com.company.controller;
 
-import com.company.model.CustomErrorResponse;
+
 import com.company.model.MathSolution;
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDateTime;
 
-import static java.time.LocalDateTime.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -81,7 +78,11 @@ public class MathSolutionControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())                                // Print results to console.
-                .andExpect(status().isUnprocessableEntity());
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$[*].status").value(422))
+                .andExpect(jsonPath("$[*].errorMsg").value("operand2 must be present in request"))
+                .andExpect(jsonPath("$[*].errorCode").value("422 UNPROCESSABLE_ENTITY"))
+                .andExpect(jsonPath("$[*].timestamp").exists());
     }
 
 
@@ -124,7 +125,11 @@ public class MathSolutionControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())                                // Print results to console.
-                .andExpect(status().isUnprocessableEntity());
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$[*].status").value(422))
+                .andExpect(jsonPath("$[*].errorMsg").value("operand2 must be present in request"))
+                .andExpect(jsonPath("$[*].errorCode").value("422 UNPROCESSABLE_ENTITY"))
+                .andExpect(jsonPath("$[*].timestamp").exists());
     }
 
     // modified  code from class
@@ -154,7 +159,7 @@ public class MathSolutionControllerTest {
     }
 
     @Test
-    public void shouldFailToMultiplytOperatorsAndReturnStatusCode422() throws Exception {
+    public void shouldFailToMultiplyOperatorsAndReturnStatusCode422() throws Exception {
 
         MathSolution inputSolution = new MathSolution();
         inputSolution.setOperand1(1.0);
@@ -166,12 +171,16 @@ public class MathSolutionControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())                                // Print results to console.
-                .andExpect(status().isUnprocessableEntity());
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$[*].status").value(422))
+                .andExpect(jsonPath("$[*].errorMsg").value("operand2 must be present in request"))
+                .andExpect(jsonPath("$[*].errorCode").value("422 UNPROCESSABLE_ENTITY"))
+                .andExpect(jsonPath("$[*].timestamp").exists());
     }
 
     // modified code from class
     @Test
-    public void shouldDivideOperatorsandReutrnStatusCode200() throws Exception {
+    public void shouldDivideOperatorsAndReturnStatusCode200() throws Exception {
         MathSolution outputSolution = new MathSolution();
         outputSolution.setOperand1(1.0);
         outputSolution.setOperand2(2.0);
@@ -199,7 +208,7 @@ public class MathSolutionControllerTest {
     public void shouldFailToDivideOperatorsAndReturnStatusCode422() throws Exception {
 
         MathSolution inputSolution = new MathSolution();
-        inputSolution.setOperand1(1.0);
+        inputSolution.setOperand2(1.0);
 
         String inputJson = mapper.writeValueAsString(inputSolution);
 
@@ -208,6 +217,31 @@ public class MathSolutionControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())                                // Print results to console.
-                .andExpect(status().isUnprocessableEntity());
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$[*].status").value(422))
+                .andExpect(jsonPath("$[*].errorMsg").value("operand1 must be present in request"))
+                .andExpect(jsonPath("$[*].errorCode").value("422 UNPROCESSABLE_ENTITY"))
+                .andExpect(jsonPath("$[*].timestamp").exists());
+    }
+
+    @Test
+    public void shouldFailToDivideByZeroOperatorAndReturnStatusCode422() throws Exception {
+
+        MathSolution inputSolution = new MathSolution();
+        inputSolution.setOperand1(1.0);
+        inputSolution.setOperand2(0.0);
+
+        String inputJson = mapper.writeValueAsString(inputSolution);
+
+        mockMvc.perform(post("/divide")
+                        .content(inputJson)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())                                // Print results to console.
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.status").value(422))
+                .andExpect(jsonPath("$.errorMsg").value("Cannot divide number by zero! operand2 cannot be zero!"))
+                .andExpect(jsonPath("$.errorCode").value("422 UNPROCESSABLE_ENTITY"))
+                .andExpect(jsonPath("$.timestamp").exists());
     }
 }
