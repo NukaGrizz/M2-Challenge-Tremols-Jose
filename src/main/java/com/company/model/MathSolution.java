@@ -5,11 +5,9 @@ import java.util.Objects;
 
 public class MathSolution {
 
-    @NotNull(message = "operand1 must be present in request")
-    @Min(value = -999, message = "operand1 must be a integer greater than -999")
+    @NotNull(message = "operand2 must be present in request")
     private Double operand1;
     @NotNull(message = "operand2 must be present in request")
-    @Min(value = -999, message = "operand2 must be a integer greater than -999")
     private Double operand2;
     private String operation;
     private double answer;
@@ -24,19 +22,19 @@ public class MathSolution {
     public MathSolution(){
     }
 
-    public double getOperand1() {
+    public Double getOperand1() {
         return operand1;
     }
 
-    public void setOperand1(double operand1) {
+    public void setOperand1(Double operand1) {
         this.operand1 = operand1;
     }
 
-    public double getOperand2() {
+    public Double getOperand2() {
         return operand2;
     }
 
-    public void setOperand2(double operand2) {
+    public void setOperand2(Double operand2) {
         this.operand2 = operand2;
     }
 
@@ -62,7 +60,7 @@ public class MathSolution {
             case "subtract": return operand1 - operand2;
             case "divide": return operand1 / operand2;
             case "multiply": return operand1 * operand2;
-            default: return 0/0;
+            default: return 0;
         }
     }
 

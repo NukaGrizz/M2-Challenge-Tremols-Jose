@@ -3,12 +3,13 @@ package com.company.controller;
 
 import com.company.exceptions.NotFoundException;
 import com.company.model.CustomErrorResponse;
+import com.sun.org.apache.bcel.internal.classfile.Code;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
-public class MathSolutionControllerExceptionHandler {
+public class ControllerExceptionHandler {
 
     //Code taken from class
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
@@ -52,6 +53,16 @@ public class MathSolutionControllerExceptionHandler {
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ResponseEntity<CustomErrorResponse> outOfRangeException(IllegalArgumentException e) {
         CustomErrorResponse error = new CustomErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY.toString(), e.getMessage());
+        error.setStatus((HttpStatus.UNPROCESSABLE_ENTITY.value()));
+        error.setTimestamp(LocalDateTime.now());
+        ResponseEntity<CustomErrorResponse> responseEntity = new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        return responseEntity;
+    }
+
+    @ExceptionHandler(value = HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ResponseEntity<CustomErrorResponse> outOfRangeException(HttpMessageNotReadableException e) {
+        CustomErrorResponse error = new CustomErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY.toString(), "Http request not properly formatted");
         error.setStatus((HttpStatus.UNPROCESSABLE_ENTITY.value()));
         error.setTimestamp(LocalDateTime.now());
         ResponseEntity<CustomErrorResponse> responseEntity = new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);

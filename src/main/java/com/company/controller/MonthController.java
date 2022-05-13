@@ -12,7 +12,10 @@ public class MonthController {
 
     @GetMapping(value = "/month/{monthNumber}")
     @ResponseStatus(value = HttpStatus.OK)
-    public Month convertMonth(@PathVariable @Valid int monthNumber){
+    public Month convertMonth(@PathVariable @Valid int monthNumber) throws Exception{
+        if(monthNumber > 12 || monthNumber < 1){
+            throw new IllegalArgumentException("PathVariable must be a number between 1 and 12");
+        }
         return new Month(monthNumber);
     }
 
