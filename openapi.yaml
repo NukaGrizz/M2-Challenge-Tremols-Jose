@@ -227,11 +227,9 @@ components:
       type: object
       properties:
         operand1:
-          minimum: -999
           type: number
           format: double
         operand2:
-          minimum: -999
           type: number
           format: double
         operation:
@@ -243,8 +241,6 @@ components:
       type: object
       properties:
         number:
-          maximum: 12
-          minimum: 1
           type: integer
           format: int32
         name:
