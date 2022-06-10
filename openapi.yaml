@@ -15,7 +15,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MathSolution'
+              $ref: '#/components/schemas/MathSolutionRequest'
         required: true
       responses:
         '200':
@@ -23,7 +23,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/MathSolution'
+                $ref: '#/components/schemas/MathSolutionResponse'
         '404':
           description: Not Found
           content:
@@ -49,7 +49,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MathSolution'
+              $ref: '#/components/schemas/MathSolutionRequest'
         required: true
       responses:
         '200':
@@ -57,7 +57,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/MathSolution'
+                $ref: '#/components/schemas/MathSolutionResponse'
         '404':
           description: Not Found
           content:
@@ -83,7 +83,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MathSolution'
+              $ref: '#/components/schemas/MathSolutionRequest'
         required: true
       responses:
         '200':
@@ -91,7 +91,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/MathSolution'
+                $ref: '#/components/schemas/MathSolutionResponse'
         '404':
           description: Not Found
           content:
@@ -117,7 +117,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MathSolution'
+              $ref: '#/components/schemas/MathSolutionRequest'
         required: true
       responses:
         '200':
@@ -125,7 +125,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/MathSolution'
+                $ref: '#/components/schemas/MathSolutionResponse'
         '404':
           description: Not Found
           content:
@@ -220,7 +220,19 @@ components:
         timestamp:
           type: string
           format: date-time
-    MathSolution:
+    MathSolutionRequest:
+      required:
+        - operand1
+        - operand2
+      type: object
+      properties:
+        operand1:
+          type: number
+          format: double
+        operand2:
+          type: number
+          format: double
+    MathSolutionResponse:
       required:
         - operand1
         - operand2
